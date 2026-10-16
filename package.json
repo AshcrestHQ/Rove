@@ -1,0 +1,88 @@
+{
+  "name": "rove",
+  "productName": "Rove",
+  "private": true,
+  "version": "0.1.0-alpha.1",
+  "description": "Your files. Your flow. A polished, open-source file manager for Windows by AshcrestHQ.",
+  "author": {
+    "name": "AshcrestHQ"
+  },
+  "license": "MIT",
+  "main": "electron/main.cjs",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "electron:dev": "concurrently -k \"vite\" \"wait-on tcp:5173 && cross-env ELECTRON_DEV=1 electron .\"",
+    "electron:start": "electron .",
+    "start": "vite build && electron .",
+    "dist:win": "npm run build && electron-builder --win nsis --x64",
+    "pack": "npm run build && electron-builder --dir",
+    "icons": "node scripts/generate-icons.js",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "build": {
+    "appId": "com.ashcrest.rove",
+    "productName": "Rove",
+    "copyright": "Copyright © 2026 AshcrestHQ",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "assets/branding/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/branding/icon.ico",
+      "artifactName": "Rove-Setup-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "Rove",
+      "installerIcon": "assets/branding/icon.ico",
+      "uninstallerIcon": "assets/branding/icon.ico",
+      "installerHeaderIcon": "assets/branding/icon.ico",
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": true
+    }
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.55.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "concurrently": "^10.0.6",
+    "cross-env": "^10.1.0",
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3",
+    "oxlint": "^1.81.0",
+    "png-to-ico": "^3.0.2",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "wait-on": "^9.5.1"
+  }
+}
